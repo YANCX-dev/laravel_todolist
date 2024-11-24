@@ -13,43 +13,73 @@ class TaskController extends Controller
     {
         $user = User::find(1);
 
-        if(isset($user)){
+        if (isset($user)) {
 
             $tasks = $user->tasks();
 //            dd($tasks->get());
             return view('taskpage', compact('tasks'));
 
-        }else{
-           return view('taskpage');
+        } else {
+            return view('taskpage');
         }
 
     }
+
     public function store(Request $request)
     {
-        $task = $request->string('taskText');
-        $tasks = Task::all();
-        $user = User::find(1);
-        $status = Status::find(1);
-        Task::create([
-            'user_id'=> $user->id,
-            'status_id' => $status->id,
+        $text = $request->string('taskText');
+
+        $task = Task::create([
+            'user_id' => 1, // в будущем использвать Auth::id();
+            'status_id' => 1,
             'name' => null,
-            'text'=>$task,
+            'text' => $request->taskText,
         ]);
 
-        return redirect('/')->with('tasks', $tasks);
+        return response()->json(data: [
+            'success' => true,
+            'message'=> 'Задача успешно создана!',
+            'task'=> [
+                'text' =>  $task->text,
+                'status'=> $task->status->status,
+                'id' =>    $task->id,
+                'date' =>  $task->created_at,
+            ]
+        ]);
 
     }
 
-    public function destroy(Task $task)
+//    public function destroy(Task $task)
+//    {
+//        $deleteStatus = $task->delete();
+//
+//        if ($deleteStatus) {
+//            return redirect('/');
+//        } else {
+//            return redirect('/')->with('error', 'Не удалось удалить задачу! Попробуйте еще!');
+//        }
+//
+//    }
+
+    public function destroy($task_id)
     {
-        $deleteStatus = $task->delete();
+        $task = Task::find($task_id);
 
-        if($deleteStatus){
-            return redirect('/');
-        }else{
-            return redirect('/')->with('error', 'Не удалось удалить задачу! Попробуйте еще!');
+        if ($task) {
+            $task->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Задача успешно удалена',
+            ]);
         }
-
+        return response()->json([
+            'success' => false,
+            'message' => 'Задача не найдена',
+        ], 404);
+    }
+    public function changeStatus(Request $request)
+    {
+        dd($request);
     }
 }

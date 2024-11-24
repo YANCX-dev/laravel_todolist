@@ -217,7 +217,7 @@ body {
 }
 
 .task-card__action {
-    /*align-self: flex-start;*/
+    width: 100%;
     background-color: #f33;
     color: #fff;
     padding: 8px 16px;
