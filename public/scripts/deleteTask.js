@@ -1,38 +1,37 @@
 
-
 document.addEventListener('DOMContentLoaded', function () {
 
-    const buttons = document.querySelectorAll('.delete-button');
+    const formContainer = document.querySelector('.task-card__delete-form');
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
-    buttons.forEach(button => {
+    document.addEventListener('click', (e)=>{
+        if(!e.target.matches('button.delete-button')){
+            return
+        }
+        const taskId = e.target.getAttribute('data-id');
+        const taskCard = e.target.closest('.task-card');
 
-        button.addEventListener('click', (e)=>{
-
-            const taskId = e.target.getAttribute('data-id');
-            const csrf = e.target.getAttribute('data-csrf');
-            const taskCard = e.target.closest('.task-card');
-
-            if(confirm('Вы уверены, что хотите удалить задачу?')){
-                fetch(`/deleteTask/${taskId}`, {
-                    method: "DELETE",
-                    headers: {
-                        'X-CSRF-TOKEN': csrf,
-                        'Content-Type': 'application/json'
+        if(confirm('Вы уверены, что хотите удалить задачу?')){
+            fetch(`/deleteTask/${taskId}`, {
+                method: "DELETE",
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response =>response.json())
+                .then(data =>{
+                    if (data.success){
+                        taskCard.remove();
+                    }else {
+                        alert('Ошибка' + data.message);
                     }
                 })
-                    .then(response =>response.json())
-                    .then(data =>{
-                        if (data.success){
-                            taskCard.remove();
-                        }else {
-                            alert('Ошибка' + data.message);
-                        }
-                    })
-                    .catch(e =>{
-                        console.error('Error', e);
-                        alert('Произошла ошибка!');
-                    })
-            }
-        });
-    });
+                .catch(e =>{
+                    console.error('Error', e);
+                    alert('Произошла ошибка!');
+                })
+        }
+    })
+
 });

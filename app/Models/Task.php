@@ -24,19 +24,19 @@ class Task extends Model
         return $this->BelongsTo(Status::class);
     }
 
-    public function scopeNewTasks($query)
+    public function scopeToDoTask($query)
     {
         return $query->where('status_id', 1)->get();
     }
 
     public function scopeInProgressTasks($query)
     {
-        return $query->where('status', 'in-progress')->get();
+        return $query->where('status', 2)->get();
     }
 
-    public function getCompletedTasks($query)
+    public function scopeCompletedTasks($query)
     {
-        return $query->where('status', 'completed')->get();
+        return $query->where('status', 3)->get();
     }
 
 

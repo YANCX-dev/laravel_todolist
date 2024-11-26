@@ -9,7 +9,7 @@ use Illuminate\Database\Seeder;
 
 class StatusSeeder extends Seeder
 {
-    private array $taskStatuses = ['TODO', 'DONE', 'DOING', 'DONE'];
+    private array $taskStatuses = ['TODO','DOING','DONE'];
     /**
      * Run the database seeds.
      */

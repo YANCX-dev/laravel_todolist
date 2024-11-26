@@ -17,17 +17,19 @@ class TaskController extends Controller
 
             $tasks = $user->tasks();
 //            dd($tasks->get());
-            return view('taskpage', compact('tasks'));
+            return view('task.index', compact('tasks'));
 
         } else {
-            return view('taskpage');
+            return view('task.index');
         }
 
     }
 
     public function store(Request $request)
     {
-        $text = $request->string('taskText');
+        $validated = $request->validate([
+            'taskText'=>'required|string|max:255',
+        ]);
 
         $task = Task::create([
             'user_id' => 1, // в будущем использвать Auth::id();
@@ -36,15 +38,23 @@ class TaskController extends Controller
             'text' => $request->taskText,
         ]);
 
+        if($task){
+            return response()->json(data: [
+                'success' => true,
+                'message'=> 'Задача успешно создана!',
+                'task'=> [
+                    'text' =>  $task->text,
+                    'status'=> $task->status->status,
+                    'id' =>    $task->id,
+                    'date' =>  $task->created_at,
+                ]
+            ]);
+        }
+
         return response()->json(data: [
-            'success' => true,
-            'message'=> 'Задача успешно создана!',
-            'task'=> [
-                'text' =>  $task->text,
-                'status'=> $task->status->status,
-                'id' =>    $task->id,
-                'date' =>  $task->created_at,
-            ]
+            'success' => false,
+            'validate'=> $validated,
+            'message' => 'Ошибка создания задачи'
         ]);
 
     }
@@ -81,5 +91,12 @@ class TaskController extends Controller
     public function changeStatus(Request $request)
     {
         dd($request);
+    }
+
+    public function show($id)
+    {
+        $task = Task::findOrFail($id);
+
+        return view('task.show', compact('task'));
     }
 }
