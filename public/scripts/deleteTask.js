@@ -22,7 +22,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(response =>response.json())
                 .then(data =>{
                     if (data.success){
+
                         taskCard.remove();
+
                     }else {
                         alert('Ошибка' + data.message);
                     }

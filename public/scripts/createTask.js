@@ -29,10 +29,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     taskElement.classList.add('task-card');
                     taskElement.classList.add('task-card--todo');
                     taskElement.innerHTML =
-                        `<p class="task-card__status">${data.task.status}</p>
+                        `<a href="task/${data.task.id}" class="task-link">
+                         <p class="task-card__status">${data.task.status}</p>
                          <p class="task-card__description">${data.task.text}</p>
                          <p class="task-card__date">${data.task.date}</p>
-
+                         </a>
                         <div class="task-card__btn-container">
                             <form class="task-card__form">
                                 <button class="task-card__action" name="MarkAsDone" id="${data.task.id}">Mark as done</button>

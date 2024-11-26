@@ -167,7 +167,7 @@ body {
 .task-cards {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    border: 2px solid red;
+    /*border: 2px solid red;*/
     gap: 5px;
 }
 
@@ -235,7 +235,7 @@ body {
     background-color: #d12;
 }
 
-.task-card__delete{
+.task-card__delete {
     width: 100%;
     background-color: #a8a5a5;
     color: #fff;
@@ -247,7 +247,7 @@ body {
     transition: background 0.3s ease;
 }
 
-.task-form{
+.task-form {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -255,29 +255,45 @@ body {
     margin: 10px;
 }
 
-.task-card__btn-container{
+.task-card__btn-container {
     display: flex;
     flex-direction: column;
     gap: 2px;
 }
 
 
-
-
-.task-form__input{
+.task-form__input {
     border-radius: 3px;
     border: 2px solid #28a745;
     padding: 5px;
     width: 100%;
 }
 
-.task-form__button{
+.task-form__button {
     border: none;
     background-color: #04a957;
     padding: 5px;
 }
-.task-form__btn-text{
+
+.task-form__btn-text {
     color: white;
     font-size: 16px;
     font-weight: bold;
 }
+
+.task-link {
+    display: contents;
+}
+
+.task-card__opened {
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    margin-left: 50px;
+    width: 400px;
+    height: max-content;
+    padding: 15px;
+    color: white;
+    background: #4a5568;
+}
+
